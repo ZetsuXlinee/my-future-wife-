@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Future Wife 💍</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 50%, #ffc3a0 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .hearts-bg {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; overflow: hidden; z-index: 0;
+    }
+
+    .heart-float {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 20px;
+      animation: floatUp linear infinite;
+      bottom: -50px;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+
+    .header {
+      text-align: center;
+      margin-top: 40px;
+      z-index: 2;
+      padding: 0 20px;
+      animation: fadeInDown 1.2s ease;
+    }
+
+    .title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      color: #fff;
+      text-shadow: 2px 4px 12px rgba(214, 51, 108, 0.6);
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      color: #fff;
+      font-weight: 300;
+      margin-top: 10px;
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      text-shadow: 1px 2px 6px rgba(214, 51, 108, 0.5);
+    }
+
+    .slider-container {
+      position: relative;
+      width: min(90%, 420px);
+      margin: 40px auto;
+      z-index: 2;
+      animation: fadeInUp 1.2s ease;
+    }
+
+    .slider {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(214, 51, 108, 0.4);
+      background: #fff;
+    }
+
+    .slide {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 0.9s ease, transform 0.9s ease;
+      transform: scale(1.05);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
+      z-index: 1;
+    }
+
+    .slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .slide .caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 60px 22px 24px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+      color: #fff;
+      text-align: center;
+    }
+
+    .slide .caption h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.4rem, 4vw, 1.9rem);
+      margin-bottom: 8px;
+      color: #ffe6f0;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .slide .caption p {
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      font-weight: 300;
+      line-height: 1.5;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.85);
+      border: none;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      color: #d6336c;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      z-index: 5;
+    }
+
+    .nav-btn:hover {
+      background: #d6336c;
+      color: #fff;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .prev { left: 12px; }
+    .next { right: 12px; }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .dot.active {
+      background: #d6336c;
+      border-color: #fff;
+      transform: scale(1.3);
+      box-shadow: 0 0 10px rgba(214, 51, 108, 0.7);
+    }
+
+    .footer {
+      margin: 30px 0 40px;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 300;
+      text-shadow: 1px 1px 4px rgba(214, 51, 108, 0.6);
+      z-index: 2;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .music-btn {
+      position: fixed;
+      bottom: 20px; right: 20px;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: none;
+      background: #d6336c;
+      color: #fff;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(214, 51, 108, 0.5);
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .music-btn:hover { transform: scale(1.1) rotate(10deg); }
+
+    .music-btn.playing { animation: pulse 1.5s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 6px 20px rgba(214, 51, 108, 0.5); }
+      50% { box-shadow: 0 6px 30px rgba(214, 51, 108, 0.9); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .nav-btn { width: 38px; height: 38px; font-size: 1.1rem; }
+      .music-btn { width: 46px; height: 46px; font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts-bg" id="heartsBg"></div>
+
+  <header class="header">
+    <h1 class="title">My Future Wife</h1>
+    <p class="subtitle">Untuk kamu, calon istriku, orang paling spesial di hidupku 💍</p>
+  </header>
+
+  <section class="slider-container">
+    <div class="slider" id="slider"></div>
+    <button class="nav-btn prev" id="prevBtn" aria-label="Sebelumnya">❮</button>
+    <button class="nav-btn next" id="nextBtn" aria-label="Selanjutnya">❯</button>
+    <div class="dots" id="dots"></div>
+  </section>
+
+  <footer class="footer">
+    <p>Kizz And Ciaa</p>
+  </footer>
+
+  <button class="music-btn" id="musicBtn" title="Putar musik">🎵</button>
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://www.image2url.com/r2/default/audio/1790834025897-669ce625-421e-40e8-b4e2-267b2c3252c1.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    // ==========================================
+    //  DATA FOTO & KATA ROMANTIS
+    // ==========================================
+    const slidesData = [
+      {
+        image: "https://i.ibb.co.com/KzztZSBK/IMG-20260728-WA0009.jpg",
+        title: "Hai Calon Istriku 💍",
+        text: "Setiap kali aku melihatmu, aku sadar betapa beruntungnya aku memilikimu."
+      },
+      {
+        image: "https://i.ibb.co.com/CKLBGMtk/IMG-20260508-WA0133-1.jpg",
+        title: "Senyummu 🌸",
+        text: "Senyummu adalah alasan aku semangat menjalani hari-hari ku."
+      },
+      {
+        image: "https://i.ibb.co.com/LdykzVW2/IMG-20260321-WA0025.jpg",
+        title: "Kamu Spesial ✨",
+        text: "Di antara miliaran orang di dunia, aku tetap memilih kamu. Selalu."
+      },
+      {
+        image: "https://i.ibb.co.com/XkZGh1N0/IMG-20260503-162156-648.png",
+        title: "Selamanya 🌹",
+        text: "Aku ingin menua bersamamu, menemani setiap tawamu sampai akhir waktu."
+      }
+    ];
+
+    const slider = document.getElementById("slider");
+    const dotsContainer = document.getElementById("dots");
+
+    slidesData.forEach((data, i) => {
+      const slide = document.createElement("div");
+      slide.className = "slide" + (i === 0 ? " active" : "");
+      slide.innerHTML = `
+        <img src="${data.image}" alt="Foto ${i + 1}" loading="lazy" />
+        <div class="caption">
+          <h2>${data.title}</h2>
+          <p>${data.text}</p>
+        </div>
+      `;
+      slider.appendChild(slide);
+
+      const dot = document.createElement("span");
+      dot.className = "dot" + (i === 0 ? " active" : "");
+      dot.dataset.index = i;
+      dot.addEventListener("click", () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    });
+
+    const slides = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".dot");
+    let currentIndex = 0;
+    let autoPlay;
+
+    function goToSlide(index) {
+      slides[currentIndex].classList.remove("active");
+      dots[currentIndex].classList.remove("active");
+      currentIndex = (index + slides.length) % slides.length;
+      slides[currentIndex].classList.add("active");
+      dots[currentIndex].classList.add("active");
+    }
+
+    function nextSlide() { goToSlide(currentIndex + 1); }
+    function prevSlide() { goToSlide(currentIndex - 1); }
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      nextSlide(); resetAutoPlay();
+    });
+
+    document.getElementById("prevBtn").addEventListener("click", () => {
+      prevSlide(); resetAutoPlay();
+    });
+
+    function startAutoPlay() {
+      autoPlay = setInterval(nextSlide, 5000);
+    }
+
+    function resetAutoPlay() {
+      clearInterval(autoPlay);
+      startAutoPlay();
+    }
+
+    startAutoPlay();
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    slider.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    slider.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) nextSlide();
+        else prevSlide();
+        resetAutoPlay();
+      }
+    }
+
+    const heartsBg = document.getElementById("heartsBg");
+    const heartEmojis = ["❤️", "💖", "💕", "💗", "🌸", "💘", "💍"];
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart-float";
+      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = 14 + Math.random() * 20 + "px";
+      heart.style.animationDuration = 6 + Math.random() * 6 + "s";
+      heartsBg.appendChild(heart);
+      setTimeout(() => heart.remove(), 12000);
+    }
+
+    setInterval(createHeart, 500);
+
+    // ==========================================
+    //  MUSIC CONTROL
+    // ==========================================
+    const musicBtn = document.getElementById("musicBtn");
+    const bgMusic = document.getElementById("bgMusic");
+    let isPlaying = false;
+
+    // Set volume awal (0.0 - 1.0)
+    bgMusic.volume = 0.5;
+
+    musicBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        bgMusic.pause();
+        musicBtn.textContent = "🎵";
+        musicBtn.classList.remove("playing");
+      } else {
+        bgMusic.play().then(() => {
+          musicBtn.textContent = "⏸️";
+          musicBtn.classList.add("playing");
+        }).catch(err => {
+          console.error("Gagal memutar musik:", err);
+          alert("Musik tidak bisa diputar. Cek link MP3-nya ya 🎵");
+        });
+      }
+      isPlaying = !isPlaying;
+    });
+
+    // Autoplay saat pertama kali user klik/scroll (karena browser modern blokir autoplay)
+    function tryAutoPlay() {
+      bgMusic.play().then(() => {
+        musicBtn.textContent = "⏸️";
+        musicBtn.classList.add("playing");
+        isPlaying = true;
+        // Hapus listener setelah berhasil
+        document.removeEventListener("click", tryAutoPlay);
+        document.removeEventListener("touchstart", tryAutoPlay);
+      }).catch(() => { /* masih diblokir, tunggu interaksi berikutnya */ });
+    }
+
+    // Coba autoplay saat user pertama kali berinteraksi
+    document.addEventListener("click", tryAutoPlay, { once: false });
+    document.addEventListener("touchstart", tryAutoPlay, { once: false });
+  </script>
+</body>
+</html>
